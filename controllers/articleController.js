@@ -320,6 +320,7 @@ module.exports = {
         msg: "数据获取成功",
         data: {
           totalCount: totalArticleRes.length,
+          totalPage:Math.ceil(totalArticleRes.length/perpage),
           data: pageArticleRes
         }
       })
