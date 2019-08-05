@@ -246,7 +246,7 @@ module.exports = {
     const { key, type, state } = req.query
     let { page, perpage } = req.query
     // 查询状态判断
-    if (["草稿", "已发布",undefined].indexOf(state) == -1) {
+    if (["草稿", "已发布",'',undefined].indexOf(state) == -1) {
       return res.send({
         code: 400,
         msg: "文章状态传递错误，请检查"
