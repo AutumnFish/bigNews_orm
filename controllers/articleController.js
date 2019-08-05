@@ -246,7 +246,7 @@ module.exports = {
     const { key, type, state } = req.query
     let { page, perpage } = req.query
     // 查询状态判断
-    if (["草稿", "已发布","所有状态"].indexOf(state) == -1) {
+    if (["草稿", "已发布",""].indexOf(state) == -1) {
       return res.send({
         code: 400,
         msg: "文章状态传递错误，请检查"
@@ -269,7 +269,7 @@ module.exports = {
     const offset = (page - 1) * perpage
     // 查询条件
     let where = {  }
-    if(state!='所有状态'){
+    if(state!=''){
       where.state = state
     }
     // 查询关键字
