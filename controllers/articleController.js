@@ -220,7 +220,7 @@ module.exports = {
       // 修改数据
       const result = await Article.update(
         {
-          isDelete: 1
+          // isDelete: 
         },
         {
           where: {
@@ -298,6 +298,10 @@ module.exports = {
       let pageArticleRes = await Article.findAll({
         // 模糊查询
         where,
+        // 按照时间的方式倒序排列
+        order:[
+          ['id', 'DESC'],
+        ],
         include: [
           {
             model: Category
@@ -313,6 +317,9 @@ module.exports = {
       // 处理分页数据
       pageArticleRes.forEach(v=>{
         v.category = v.category.name
+        if (v.cover.indexOf("htps://") == -1) {
+          v.cover = `${baseUrl}/${v.cover}`
+        }
         delete v.isDelete
       })
       // 总页数
