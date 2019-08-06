@@ -259,6 +259,8 @@ module.exports = {
       perpage = 6
     }
     // 分页数据判断
+    page = parseInt(page)
+    perpage =parseInt(perpage)
     if (typeof page != "number" || typeof perpage != "number") {
       return res.send({
         code: 400,
@@ -289,6 +291,8 @@ module.exports = {
     if (type) {
       where["categoryId"] = type
     }
+    where['isDelete']=0
+    // 增加
     try {
       // 分页查询
       let pageArticleRes = await Article.findAll({
@@ -309,6 +313,7 @@ module.exports = {
       // 处理分页数据
       pageArticleRes.forEach(v=>{
         v.category = v.category.name
+        delete v.isDelete
       })
       // 总页数
       let totalArticleRes = await Article.findAll({
