@@ -220,7 +220,7 @@ module.exports = {
       // 修改数据
       const result = await Article.update(
         {
-          // isDelete: 
+          isDelete: true
         },
         {
           where: {
@@ -230,12 +230,17 @@ module.exports = {
       )
       // res.send(result)
       if (result[0] == 1) {
-        res.send({
+        return res.send({
           code: 204,
           msg: "文章删除成功"
         })
       }
+      res.send({
+        code:400,
+        msg:'文章删除失败,请检查id'
+      })
     } catch (error) {
+      console.log(error)
       serverError(res)
     }
   },
