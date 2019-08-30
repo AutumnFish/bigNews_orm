@@ -240,7 +240,6 @@ module.exports = {
         msg:'文章删除失败,请检查id'
       })
     } catch (error) {
-      console.log(error)
       serverError(res)
     }
   },
