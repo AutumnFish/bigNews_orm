@@ -1,5 +1,7 @@
 const { Comment, Article, Category, Sequelize, sequelize } = require("../db")
 const Op = Sequelize.Op
+// 导入配置
+const config = require('../config/index')
 // 导入基地址
 const { baseUrl } = reqlib("/config")
 
@@ -154,7 +156,7 @@ module.exports = {
       pageArticleRes.forEach(v => {
         v.comments = v.comments.length
         if (v.cover.indexOf("https://") == -1) {
-          v.cover = `http://localhost:8080/${v.cover}`
+          v.cover = `${config.baseUrl}:${config.port}/${v.cover}`
         }
         // 类型
         v.category = v.category.name
@@ -204,7 +206,7 @@ module.exports = {
       })
       picRes.forEach(v => {
         if (v.cover.indexOf("https://") == -1) {
-          v.cover = `http://localhost:8080/${v.cover}`
+          v.cover = `${config.baseUrl}:${config.port}/${v.cover}`
         }
       })
       res.send({
@@ -263,7 +265,7 @@ module.exports = {
         delete v.content
         // 处理封面
         if (v.cover.indexOf("https://") == -1) {
-          v.cover = `http://localhost:8080/${v.cover}`
+          v.cover = `${config.baseUrl}:${config.port}/${v.cover}`
         }
         // 处理分类名
         v.category = v.category.name

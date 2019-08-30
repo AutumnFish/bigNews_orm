@@ -17,6 +17,7 @@ const db = require("./db")
 const app = express()
 
 // 托管静态资源
+app.use(express.static('static'))
 
 
 // 中间件 - 跨域

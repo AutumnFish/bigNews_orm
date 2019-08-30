@@ -25,7 +25,7 @@ router.use((req, res, next) => {
     let jwt = new JwtUtil(authorization);
     let result = jwt.verifyToken();
     if (result == "err") {
-      return res.send({ status: 403, msg: "登录已过期,请重新登录" });
+      return res.status(403).send({ status: 403, msg: "未登录，请先登录" });
     }
     next();
   }
