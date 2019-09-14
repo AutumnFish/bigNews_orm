@@ -203,7 +203,8 @@ module.exports = {
   // 删除文章
   async _delete(req, res) {
     // 获取id
-    const { id } = req.body;
+    const { id } = req.body||req.query;
+    
     try {
       const articleRes = await Article.findAll({
         where: {
