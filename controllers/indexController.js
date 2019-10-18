@@ -4,6 +4,8 @@ const Op = Sequelize.Op
 const config = require('../config/index')
 // 导入基地址
 const { baseUrl } = reqlib("/config")
+// 获取转义的工具函数
+const {html_decode} = reqlib("/utils/htmlFmt");
 
 
 const moment = require("moment")
@@ -261,7 +263,7 @@ module.exports = {
         // 评论数
         v.comments = v.comments.length
         // 简略信息
-        v.intro = v.content.substring(0, 20) + "..."
+        v.intro = html_decode(v.content).substring(0, 20) + "..."
         // 删除内容
         delete v.content
         // 处理封面
@@ -375,6 +377,7 @@ module.exports = {
         }
       )
       currentArticleRes = JSON.parse(JSON.stringify(currentArticleRes))
+      currentArticleRes.content = html_decode(currentArticleRes.content);
       // 处理封面
       if (currentArticleRes.cover.indexOf("htps://") == -1) {
         currentArticleRes.cover = `${baseUrl}/${currentArticleRes.cover}`
@@ -383,6 +386,7 @@ module.exports = {
       currentArticleRes.comments = currentArticleRes.comments.length
       // 分类
       currentArticleRes.category = currentArticleRes.category.name
+      // 内容
       // 查找上一个
       const prev = await Article.findOne({
         where: {
