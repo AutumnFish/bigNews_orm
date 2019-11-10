@@ -262,8 +262,16 @@ module.exports = {
       latestRes.forEach(v => {
         // 评论数
         v.comments = v.comments.length
+        v.content = html_decode(v.content);
+        console.log(v.content);
+        const index = v.content.indexOf("</p>");
+        console.log(index);
         // 简略信息
-        v.intro = html_decode(v.content).substring(0, 20) + "..."
+        if(index==-1){
+          v.intro = v.content.substring(0,20)+'...'
+        }else{
+          v.intro =  v.content.substring(0, index) + "..."
+        }
         // 删除内容
         delete v.content
         // 处理封面
