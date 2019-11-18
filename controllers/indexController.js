@@ -62,7 +62,11 @@ module.exports = {
       const articleRes = await Article.findOne({
         where: {
           id: articleId
-        }
+        },
+        order: [
+          // 根据id倒序
+          ["id", "DESC"]
+        ]
       })
       // id异常提示
       if (!articleRes) {
@@ -71,7 +75,7 @@ module.exports = {
           msg: "文章id有误,请检查"
         })
       }
-      console.log(articleId)
+      // console.log(articleId)
       // 查询评论
       const commentRes = await Comment.findAll({
         where: {
@@ -89,7 +93,7 @@ module.exports = {
         data:commentRes
       })
     } catch (error) {
-      console.log(error)
+      // console.log(error)
       serverError(res)
     }
   },
@@ -117,7 +121,7 @@ module.exports = {
     // 计算跳过的页码
     const offset = (page - 1) * perpage
     // 查询条件
-    let where = { isDelete: 0 }
+    let where = { isDelete: 0 ,state:"已发布"}
     // 查询关键字
     if (key) {
       where[Op.or] = [
@@ -178,7 +182,7 @@ module.exports = {
         }
       })
     } catch (error) {
-      // console.log(error);
+      // // console.log(error);
       serverError(res)
     }
     // res.send("/search")
@@ -243,7 +247,8 @@ module.exports = {
     try {
       let latestRes = await Article.findAll({
         where: {
-          isDelete: 0
+          isDelete: 0,
+          state:"已发布"
         },
         order: [["id", "DESC"]],
         limit: 5,
@@ -263,9 +268,9 @@ module.exports = {
         // 评论数
         v.comments = v.comments.length
         v.content = html_decode(v.content);
-        console.log(v.content);
+        // console.log(v.content);
         const index = v.content.indexOf("</p>");
-        console.log(index);
+        // console.log(index);
         // 简略信息
         if(index==-1){
           v.intro = v.content.substring(0,20)+'...'
@@ -287,7 +292,7 @@ module.exports = {
         data: latestRes
       })
     } catch (error) {
-      console.log(error)
+      // console.log(error)
       serverError(res)
     }
   },
@@ -312,7 +317,7 @@ module.exports = {
         data: latestRes
       })
     } catch (error) {
-      console.log(error)
+      // console.log(error)
       serverError(res)
     }
   },
@@ -341,7 +346,7 @@ module.exports = {
         data: attentionRes
       })
     } catch (error) {
-      console.log(error)
+      // console.log(error)
       serverError(res)
     }
   },
@@ -431,7 +436,7 @@ module.exports = {
         }
       })
     } catch (error) {
-      console.log(error)
+      // console.log(error)
       serverError(res)
     }
   }

@@ -39,6 +39,6 @@ app.use(express.static('uploads'))
  
 db.sequelize.sync({ force: false }).then(() => {
   app.listen(config.port, () => {
-    console.log(`开启成功: ${config.baseUrl}:${config.port}`)
+    // console.log(`开启成功: ${config.baseUrl}:${config.port}`)
   })
 })
