@@ -316,10 +316,7 @@ module.exports = {
   // 最新评论
   async latest_comment(req, res) {
     try {
-      let latestRes = await Comment.findAll({
-        order: [["id", "DESC"]],
-        limit: 6
-      });
+      let latestRes = await Comment.findAll();
       // 处理数据
       latestRes = JSON.parse(JSON.stringify(latestRes));
       latestRes.forEach(v => {
@@ -327,11 +324,14 @@ module.exports = {
         v.intro = v.content.substring(0, 20) + "...";
         // 删除内容
         delete v.content;
-      });
+      })
+      latestRes.sort((a,b)=>{
+        return  moment(b.date).valueOf() - moment(a.date).valueOf()
+      })
       res.send({
         code: 200,
         msg: "获取成功",
-        data: latestRes
+        data: latestRes.slice(0,6)
       });
     } catch (error) {
       // console.log(error)
