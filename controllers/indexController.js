@@ -147,14 +147,16 @@ module.exports = {
       where[Op.or] = [
         {
           title: {
-            [Op.substring]: key
+            [Op.like]: `%${key}%`
           },
           content: {
-            [Op.substring]: key
+            [Op.like]: `%${key}%`
           }
         }
       ];
     }
+    // console.log(key);
+    // console.log(where);
     // 查询类型
     if (type) {
       where["categoryId"] = type;
@@ -209,7 +211,7 @@ module.exports = {
         }
       });
     } catch (error) {
-      // // console.log(error);
+      // console.log(error);
       serverError(res);
     }
     // res.send("/search")
