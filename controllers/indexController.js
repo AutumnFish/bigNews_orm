@@ -17,7 +17,7 @@ const serverError = res => {
 };
 
 // 解析文本的函数
-function formatIntro(v,delContent) {
+function formatIntro(v, delContent) {
   // 处理文章内容
   v.content = html_decode(v.content);
   const index = v.content.indexOf("</p>");
@@ -32,7 +32,7 @@ function formatIntro(v,delContent) {
   }
   // console.log(v.intro)
   // 删除内容
-  if(delContent){
+  if (delContent) {
     delete v.content;
   }
 }
@@ -104,9 +104,9 @@ module.exports = {
         }
       });
       commentRes = JSON.parse(JSON.stringify(commentRes));
-      commentRes.sort((a,b)=>{
-        return  moment(b.date).valueOf() - moment(a.date).valueOf()
-      })
+      commentRes.sort((a, b) => {
+        return moment(b.date).valueOf() - moment(a.date).valueOf();
+      });
       res.send({
         code: 200,
         msg: "获取成功",
@@ -144,16 +144,9 @@ module.exports = {
     let where = { isDelete: 0, state: "已发布" };
     // 查询关键字
     if (key) {
-      where[Op.or] = [
-        {
-          title: {
-            [Op.like]: `%${key}%`
-          },
-          content: {
-            [Op.like]: `%${key}%`
-          }
-        }
-      ];
+      where["title"] = {
+        [Op.like]: `%${key}%`
+      };
     }
     // console.log(key);
     // console.log(where);
@@ -175,6 +168,7 @@ module.exports = {
           }
         ],
         attributes: { exclude: ["isDelete"] },
+        order: [["id", "DESC"]],
         // 分页
         limit: perpage,
         // 跳过页码
@@ -195,7 +189,7 @@ module.exports = {
         // v.intro = v.content.substring(0, 20) + "...";
         // // 删除内容
         // delete v.content;
-        formatIntro(v,false);
+        formatIntro(v, false);
       });
       // 总页数
       let totalArticleRes = await Article.findAll({
@@ -326,14 +320,14 @@ module.exports = {
         v.intro = v.content.substring(0, 20) + "...";
         // 删除内容
         delete v.content;
-      })
-      latestRes.sort((a,b)=>{
-        return  moment(b.date).valueOf() - moment(a.date).valueOf()
-      })
+      });
+      latestRes.sort((a, b) => {
+        return moment(b.date).valueOf() - moment(a.date).valueOf();
+      });
       res.send({
         code: 200,
         msg: "获取成功",
-        data: latestRes.slice(0,6)
+        data: latestRes.slice(0, 6)
       });
     } catch (error) {
       // console.log(error)
